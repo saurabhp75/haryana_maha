@@ -1,6 +1,6 @@
 # Visualization of:
-### 1. [Haryana Vidhan Sabha Elections(2019)](https://saurabhp75.github.io/haryana_maha/haryana.html)
-### 2. [Maharashtra Vidhan Sabha Elections(2019)](https://saurabhp75.github.io/haryana_maha/maha.html)
+### 1. [Haryana Vidhan Sabha Elections(2019)](https://github.com/saurabhp75/haryana_maha/blob/master/haryana.html)
+### 2. [Maharashtra Vidhan Sabha Elections(2019)](https://github.com/saurabhp75/haryana_maha/blob/master/maha.html)
 
 # Data scraped from: 
 [Myneta](http://www.myneta.info/)
