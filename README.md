@@ -1,6 +1,6 @@
 # Visualization of:
-### 1. [Lok Sabha Elections(2019)](https://saurabhp75.github.io/election_visualization/choropleth.html)
-### 2. [Delhi Vidhan Sabha Elections(2015)](https://saurabhp75.github.io/election_visualization/delhi.html)
+### 1. [Haryana Vidhan Sabha Elections(2019)](https://saurabhp75.github.io/haryana_maha/haryana.html)
+### 2. [Maharashtra Vidhan Sabha Elections(2019)](https://saurabhp75.github.io/haryana_maha/maha.html)
 
 # Data scraped from: 
 [Myneta](http://www.myneta.info/)
