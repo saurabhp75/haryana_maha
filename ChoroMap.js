@@ -9,12 +9,17 @@ import { getSvgDimensions } from './miscUtils';
 
 // console.log(`${getSvgDimensions()}`)
 
-//Set map and projection
-const projection = geoMercator().scale(4500)
-  .center([76.3, 19.8])
-  .translate([getSvgDimensions().width / 2, getSvgDimensions().height / 2]);
+const generatePath = (longitude, latitude, scale) => {
+  //Set map and projection
+  // const projection = geoMercator().scale(10000)
+  const projection = geoMercator().scale(scale)
+    // .center([77.1, 29.3])
+    .center([longitude, latitude])
+    .translate([getSvgDimensions().width / 2, getSvgDimensions().height / 2]);
 
-const pathGenerator = geoPath().projection(projection);
+  return geoPath().projection(projection);
+
+}
 
 const constituencyAssetsColor = (d, colorScale, selectedConstituency) => {
   let constColor;
@@ -191,9 +196,12 @@ const constituencyPartyOpacity = (d, selectedConstituency, selectedColorValue, c
 }
 
 // Draw the map from constituencyG passed as 'selection'
-export const mahaChoroMap = (selection, props) => {
+export const ChoroMap = (selection, props) => {
   console.log('choroplethMap called');
   const {
+    longitude,
+    latitude,
+    scale,
     features,
     colorScale,
     selectedColorValue,
@@ -206,6 +214,8 @@ export const mahaChoroMap = (selection, props) => {
 
   const constituencyPaths = selection.selectAll("path").data(features, d => d.properties.ASM_NAME);
   // console.log({partyMap});
+
+  const pathGenerator = generatePath(longitude, latitude, scale)
 
   const constituencyPathsEnter = constituencyPaths.enter()
     .append("path")

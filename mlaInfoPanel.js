@@ -63,7 +63,7 @@ const getInfoPanelData = (selectedConstituency, selectedColorValue, features, co
 }
 
 // Create infoPanel
-export const mahaInfoPanel = (selection, props) => {
+export const mlaInfoPanel = (selection, props) => {
   // console.log('infoPanel called');
   const {
     selectedConstituency,

@@ -7,16 +7,20 @@ import {
   event
 } from 'd3';
 
-// import { mahaLdNProcData } from './mahaLdNProcData';
-import { LoadNProcData } from './miscUtils'
-import { mahaClrLgnd } from './mahaClrLgnd';
-import { mahaChoroMap } from './mahaChoroMap';
-import { getSvgDimensions, getSvg } from './miscUtils';
-import { mahaInfoPanel } from './mahaInfoPanel';
-import { getBgRectangleDimensions } from './miscUtils';
-import { mahaProcPartyFeatures } from './miscUtils';
-import { dropDownMenu } from './miscUtils';
-import { mahaProcEduFeatures } from './miscUtils';
+import {
+  getSvgDimensions,
+  getSvg,
+  mahaProcEduFeatures,
+  LoadNProcData,
+  mahaProcPartyFeatures,
+  dropDownMenu,
+  getBgRectangleDimensions,
+  ClrLgnd
+} from './miscUtils';
+
+// import { mahaChoroMap } from './mahaChoroMap';
+import { ChoroMap } from './ChoroMap';
+import { mlaInfoPanel } from './mlaInfoPanel';
 
 // Set initial state of the app
 let selectedFeature = 'Assets';
@@ -65,10 +69,10 @@ const createLegendBar = (colorValues,
   // remove previuosly added colorLegendG
   colorLegendG.exit().remove();
 
-  colorLegendG =  colorLegendG.enter().append('g')
+  colorLegendG = colorLegendG.enter().append('g')
     .merge(colorLegendG)
-      .attr('class', 'colorLegend')
-      .attr('transform', `translate(10, ${mainCanvasHeight - backgroundRectDimensions.height})`);
+    .attr('class', 'colorLegend')
+    .attr('transform', `translate(10, ${mainCanvasHeight - backgroundRectDimensions.height})`);
 
   // Background of legend bar, single item, special case
   backgroundRect = colorLegendG.selectAll('rect').data([legendTitle]);
@@ -79,15 +83,15 @@ const createLegendBar = (colorValues,
   // Background of legend
   backgroundRect.enter().append('rect')
     .merge(backgroundRect)
-      .attr('x', -labelRectSize)
-      .attr('y', -labelRectSize)
-      .attr('width', backgroundRectDimensions.width)
-      .attr('height', backgroundRectDimensions.height)
-      .attr('fill', 'red')
-      .attr('rx', labelRectSize)
-      .attr('stroke', 'black')
-      .attr('stroke-width', 1)
-      .attr('opacity', 0.3);
+    .attr('x', -labelRectSize)
+    .attr('y', -labelRectSize)
+    .attr('width', backgroundRectDimensions.width)
+    .attr('height', backgroundRectDimensions.height)
+    .attr('fill', 'red')
+    .attr('rx', labelRectSize)
+    .attr('stroke', 'black')
+    .attr('stroke-width', 1)
+    .attr('opacity', 0.3);
 
   // Append two groups to legend group, one for title (legendTitleG)
   // and other for body of legend bar (legendBodyG).
@@ -98,14 +102,14 @@ const createLegendBar = (colorValues,
 
   const legendTitleGMerge = legendTitleG.enter().append('g')
     .merge(legendTitleG)
-      .attr("class", "legendTitle");
+    .attr("class", "legendTitle");
 
   const legendText = legendTitleGMerge.selectAll('text').data([legendTitle]);
 
   legendText.enter().append('text')
     .merge(legendText)
-      .text(legendTitle);
-  
+    .text(legendTitle);
+
   legendBodyG = colorLegendG.selectAll('.legendBody').data([legendTitle]);
 
   // remove previuosly added legend body
@@ -205,8 +209,8 @@ const createScaleAndLegend = () => {
       "Bahujan Vikas Aaghadi",
       "Others"];
 
-    colorValues = ['#edf8e9','#c7e9c0','#a1d99b','#74c476','#41ab5d','#238b45','#005a32'];
-    
+    colorValues = ['#edf8e9', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45', '#005a32'];
+
     colorLabels = colorDomain;
 
     // Define colorscale for constituencies, discrete input and discrete output
@@ -236,8 +240,8 @@ const createScaleAndLegend = () => {
       500000000,
       1000000000];
 
-    colorValues = ['#edf8e9','#bae4b3','#74c476','#31a354','#006d2c'];
-  
+    colorValues = ['#edf8e9', '#bae4b3', '#74c476', '#31a354', '#006d2c'];
+
     colorLabels = ["< 1 Crore",
       "1 - 20 Cr.",
       "20 - 50 Cr.",
@@ -270,7 +274,7 @@ const createScaleAndLegend = () => {
       5,
       10];
 
-    colorValues = ['#edf8e9','#bae4b3','#74c476','#31a354'];
+    colorValues = ['#edf8e9', '#bae4b3', '#74c476', '#31a354'];
     // colorValues = ['#f0f9e8','#bae4bc','#7bccc4','#2b8cbe']
 
     colorLabels = [
@@ -307,7 +311,7 @@ const createScaleAndLegend = () => {
       3,
       4];
 
-    colorValues = ['#edf8e9','#bae4b3','#74c476','#238b45'];
+    colorValues = ['#edf8e9', '#bae4b3', '#74c476', '#238b45'];
 
     colorLabels = [
       "Others",
@@ -373,9 +377,16 @@ LoadNProcData('https://raw.githubusercontent.com/saurabhp75/haryana_maha/master/
 const render = () => {
   console.log('render called')
 
+  const longitude = 76.3;
+  const latitude = 19.8;
+  const scale = 4500;
+
   // Draw map
   constituencyG
-    .call(mahaChoroMap, {
+    .call(ChoroMap, {
+      longitude,
+      latitude,
+      scale,
       features,
       colorScale,
       selectedColorValue,
@@ -388,7 +399,7 @@ const render = () => {
 
   // Draw legend bar
   legendBodyGSelection
-    .call(mahaClrLgnd, {
+    .call(ClrLgnd, {
       colorValues,
       colorLabels,
       labelRectSize,
@@ -402,7 +413,7 @@ const render = () => {
 
   // Update info panel text
   infoPanelGMerge
-    .call(mahaInfoPanel, {
+    .call(mlaInfoPanel, {
       selectedConstituency,
       selectedColorValue,
       features,
